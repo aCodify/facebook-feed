@@ -39,17 +39,29 @@ ob_start();
     // include the facebook sdk
     require_once('resources/facebook-php-sdk-master/src/facebook.php');
 
+    if ( file_exists( 'config.php' ) ) 
+    {
+        require 'config.php';
+    }
+    else
+    {
+        $info = array();
+        $info['appId'] = '';
+        $info['secret'] = '';
+        $info['pageid'] = '450652468296007';
+    }
+
     // connect to app
     $config = array();
-    $config['appId'] = '';
-    $config['secret'] = '';
+    $config['appId'] = $info['appId'];
+    $config['secret'] = $info['secret'];
     $config['fileUpload'] = false; // optional
 
     // instantiate
     $facebook = new Facebook($config);
 
     // set page id
-    $pageid = "450652468296007";
+    $pageid = $info['pageid'];
 
     // now we can access various parts of the graph, starting with the feed
     $pagefeed = $facebook->api("/" . $pageid . "/feed");
